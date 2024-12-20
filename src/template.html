@@ -3,9 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>my page</title>
+    <title>Project: To Do List</title>
 </head>
 <body>
-    hello world
+    <fieldset>
+        <div>
+            <label for="inputTitle">Title: </label>
+            <input class="inputTitle" type="text" id="inputTitle" name="input_title">
+        </div>
+        <div>
+            <label for="inputDesc">Description: </label>
+            <textarea name="description" id="inputDesc"></textarea>
+        </div>
+        <div>
+            <label for="inputDate">Due date: </label>
+            <input class="inputDate" type="date" id="inputDate" name="input_date">
+        </div>
+        <div>Priority
+            <div>            
+                <input type="radio" id="low" name="input_priority">
+                <label for="low">Low</label>
+            </div>
+            <div>
+                <input type="radio" id="medium" name="input_priority">
+                <label for="medium">Moderate</label>
+            </div>
+            <div>
+                <input type="radio" id="high" name="input_priority">
+                <label for="high">Urgent</label>
+            </div>
+
+
+
+        </div>
+        
+        <button class="submit">Submit!</button>
+    </fieldset>
+
+    <div class="informationDisplay">
+        <p>p1</p>
+        <p>p2</p>
+    </div>
+    
 </body>
 </html>

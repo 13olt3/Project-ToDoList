@@ -1,0 +1,10 @@
+.informationDisplay{
+    width:20%;
+    height:10%;
+    border-style: solid;
+    font-weight: bold;
+
+}
+fieldset > div {
+    padding-top: 5px;
+}
