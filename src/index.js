@@ -30,6 +30,34 @@ import { compareAsc, format } from "date-fns";
 // window.myArray = {Name:'asdf', Age:'2', asdf: null}
 // window.myOtherArray = [1,2,3];
 
+window.ToDoClass = class ToDoClass{
+    constructor(toDoList){
+        this.toDoList = toDoList;
+    }
+    addNewItem(userInput){
+        this.toDoList[(Object.keys(this.toDoList).length)+1] = userInput;
+    }
+    get showList(){
+        return this.toDoList;
+    }
+    arraySize(){
+        console.log(Object.keys(this.toDoList).length);
+        
+    }
+    removeItem(number){
+        let resizedArray = {}
+        for (let i=1;i<number;++i){
+            resizedArray[i] = this.toDoList[i]
+        }
+        for (let i = number+1; i <= Object.keys(this.toDoList).length; ++i){
+            resizedArray[i-1] = this.toDoList[i];
+        }
+        this.toDoList = resizedArray;
+    }
+
+}
+
+
 window.inputTitle = function inputTitle(){
     const title = document.querySelector('#inputTitle');
     return title.value;
@@ -63,16 +91,18 @@ window.toDoSize = function toDoSize(){
 
 const button = document.querySelector('.submit');
 button.addEventListener('click', function(){
-    toDoArray[toDoSize()] = {
+    toDoList.addNewItem({
         Title: inputTitle(),
         Desc: inputDesc(),
         DueDate: inputDate(),
         Prio: inputPrio()
-    }
+    })
 });
 
-window.newArray = { 1: {Name: 'first', Age: 10}, 2: {Name: 'two', Age: 20}}
-window.toDoArray = {};
+window.newArray = { 1: {Name: 'first', Age: 10}, 2: {Name: 'two', Age: 20}, 3:{Name: 'three', Age: 30}}
+window.toDoList = new ToDoClass({});
+
+
 
 
 
