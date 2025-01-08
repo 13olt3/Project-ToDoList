@@ -30,6 +30,16 @@ import { compareAsc, format } from "date-fns";
 // window.myArray = {Name:'asdf', Age:'2', asdf: null}
 // window.myOtherArray = [1,2,3];
 
+
+window.createUser = function createUser(){
+    let username = prompt('Hi there, what is your name?');
+    console.log(username);
+    if ((username != "") && (username != null)){
+        let inputName = document.querySelector('.user');
+        inputName.textContent = `Welcome ${username}!`;
+    } 
+}
+
 window.ToDoClass = class ToDoClass{
     constructor(toDoList){
         this.toDoList = toDoList;
@@ -53,6 +63,14 @@ window.ToDoClass = class ToDoClass{
             resizedArray[i-1] = this.toDoList[i];
         }
         this.toDoList = resizedArray;
+    }
+
+    projectNames(){
+        let projectNames = {};
+        let numOfToDos = Object.keys(this.toDoList).length;
+        for (let i=1;i<=numOfToDos;++i){
+            ///// 
+        }
     }
 
 }
@@ -84,6 +102,9 @@ window.inputPrio = function inputPrio(){
         return 'high'
     }
 }
+window.inputProject = function inputProject(){
+
+}
 window.toDoSize = function toDoSize(){
     let size = Object.keys(toDoArray);
     return size.length;
@@ -96,11 +117,67 @@ button.addEventListener('click', function(){
         Desc: inputDesc(),
         DueDate: inputDate(),
         Prio: inputPrio()
+        
     })
 });
 
 window.newArray = { 1: {Name: 'first', Age: 10}, 2: {Name: 'two', Age: 20}, 3:{Name: 'three', Age: 30}}
 window.toDoList = new ToDoClass({});
+
+window.testFunction = function testFunction(){
+    const testSelector = document.querySelector("input[name=testCheckBox]");
+    const extraInformation = document.createElement('div');
+    extraInformation.style.cssText = "background-color: red; font-size: 1em;";
+    extraInformation.textContent = 'extra Info';
+    testSelector.appendChild(extraInformation);
+}
+window.checkedFunction = document.querySelector("input[name=project]");
+checkedFunction.addEventListener('change',function(e){
+    const toDoDataList = document.querySelector('#toDoData');
+    
+    if (toDoDataList.childElementCount == 5){
+        
+        const newDiv1 = document.createElement('div');
+        const innerDiv1 = document.createElement('div');
+        const label1 = document.createElement('label');
+        label1.setAttribute('for','projectName');
+        label1.innerText = 'Project Name:';
+        innerDiv1.appendChild(label1);
+        newDiv1.appendChild(innerDiv1);
+        toDoDataList.appendChild(newDiv1);       
+        
+    }
+
+    
+
+
+});
+
+
+window.myOptions = [{
+    text: 'option 1',
+    value: 'value 1'
+},
+{
+    text: 'option 2',
+    value: 'value 2',
+    selected: true
+},
+{
+    text: 'option 3',
+    value: 'value 3'
+}]
+window.testButton = document.querySelector('#testButton');
+testButton.addEventListener('click',function(){
+    const optionList = document.querySelector('#testSelect');
+    for (let i=0;i<myOptions.length;++i){
+        const newOption = document.createElement('option');
+        newOption.value = myOptions[i].value;
+        newOption.text = myOptions[i].text;
+        optionList.appendChild(newOption);
+    }
+
+})
 
 
 

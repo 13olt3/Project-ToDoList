@@ -8,3 +8,24 @@
 fieldset > div {
     padding-top: 5px;
 }
+
+body{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+.user{
+    padding-bottom: 10px;
+}
+
+.addToDo > img{
+    width: 10%;
+    padding-right: 10px;
+}
+.addToDo{
+    display: flex;  
+    justify-content: flex-start;
+    align-items: center; 
+
+}
+
