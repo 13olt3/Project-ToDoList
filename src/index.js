@@ -45,13 +45,13 @@ window.ToDoClass = class ToDoClass{
         this.toDoList = toDoList;
     }
     addNewItem(userInput){
-        this.toDoList[(Object.keys(this.toDoList).length)+1] = userInput;
+        this.toDoList[this.arraySize()+1] = userInput;
     }
     get showList(){
         return this.toDoList;
     }
     arraySize(){
-        console.log(Object.keys(this.toDoList).length);
+        return (Object.keys(this.toDoList).length);
         
     }
     removeItem(number){
@@ -67,13 +67,16 @@ window.ToDoClass = class ToDoClass{
 
     projectNames(){
         let projectNames = {};
-        let numOfToDos = Object.keys(this.toDoList).length;
-        for (let i=1;i<=numOfToDos;++i){
-            ///// 
+        
+        for (let i=1;i<=this.arraySize();++i){
+            projectNames[i] = {Text: this.toDoList[i].ProjectName, Value: `Value ${i}`};
         }
+        return projectNames;
     }
 
 }
+
+
 
 
 window.inputTitle = function inputTitle(){
@@ -116,13 +119,16 @@ button.addEventListener('click', function(){
         Title: inputTitle(),
         Desc: inputDesc(),
         DueDate: inputDate(),
-        Prio: inputPrio()
+        Prio: inputPrio(),
+        ProjectName: null
         
     })
 });
 
-window.newArray = { 1: {Name: 'first', Age: 10}, 2: {Name: 'two', Age: 20}, 3:{Name: 'three', Age: 30}}
-window.toDoList = new ToDoClass({});
+
+
+// window.newArray = { 1: {Name: 'first', Age: 10}, 2: {Name: 'two', Age: 20}, 3:{Name: 'three', Age: 30}}
+window.toDoList = new ToDoClass({1:{Title: 'ToDo1', Desc: 'Desc1', DueDate: 'date1', Prio: 'Low', ProjectName: 'Project1'}, 2:{Title: 'ToDo2', Desc: 'Desc2', DueDate: 'date2', Prio: 'High', ProjectName: null}});
 
 window.testFunction = function testFunction(){
     const testSelector = document.querySelector("input[name=testCheckBox]");
@@ -133,25 +139,46 @@ window.testFunction = function testFunction(){
 }
 window.checkedFunction = document.querySelector("input[name=project]");
 checkedFunction.addEventListener('change',function(e){
-    const toDoDataList = document.querySelector('#toDoData');
-    
-    if (toDoDataList.childElementCount == 5){
-        
-        const newDiv1 = document.createElement('div');
-        const innerDiv1 = document.createElement('div');
-        const label1 = document.createElement('label');
-        label1.setAttribute('for','projectName');
-        label1.innerText = 'Project Name:';
-        innerDiv1.appendChild(label1);
-        newDiv1.appendChild(innerDiv1);
-        toDoDataList.appendChild(newDiv1);       
-        
+       
+    if(checkStyle('addToProject', 'display') == 'none'){
+        document.getElementById("addToProject").style.display = 'block';
     }
+    else if(checkStyle('addToProject', 'display') == 'block'){
+        document.getElementById("addToProject").style.display = 'none';
+    }
+});
 
-    
-
+window.addToExistingChecked = document.querySelector("input[name=addToExisting]");
+addToExistingChecked.addEventListener('change',function(e){
+    const projectName = document.getElementById('projectName');
+    const selectProjects = document.getElementById('projectSelect');
+    if (projectName.disabled == true){
+        projectName.disabled = false;
+        selectProjects.disabled = true;
+    }
+    else if (projectName.disabled == false){
+        projectName.disabled = true;
+        selectProjects.disabled = false;
+    }
+    const allProjects = toDoList.projectNames();
+    const projectsList = document.querySelector('#projectSelect');
+    for (let i=1;i<=(Object.keys(allProjects).length);++i){
+        const newOption = document.createElement('option');
+        newOption.value = allProjects[i].Value;
+        newOption.text = allProjects[i].Text;
+        projectsList.appendChild(newOption);
+    }    
 
 });
+
+
+
+window.checkStyle = function checkStyle(item, property){
+    const check = document.getElementById(item);
+    const style = window.getComputedStyle(check);
+    const propertyValue = style.getPropertyValue(property);
+    return propertyValue;
+}
 
 
 window.myOptions = [{
