@@ -1,36 +1,6 @@
 import "./style.css";
 import { compareAsc, format } from "date-fns";
 
-// window.ToDo = class ToDo {
-//     constructor(anArray){
-//         this.anArray = anArray;
-//     }
-
-//     get itemName(){
-//         return console.log(`This item is called ${this.toDoItem}`);
-//     }
-//     getArrayItem(arrayIndex){
-//         console.log(`Name: ${this.anArray[arrayIndex].Name} is ${this.anArray[arrayIndex].Age}`)
-//     }
-// }
-
-
-// window.addNum = function addNum(num1,num2){
-//     return num1+num2;
-// }
-// console.log('hi');
-// window.myVar = 'asdf';
-
-// window.myClass = [
-//     'asdf','asdf2','asdf3'
-
-// ]
-
-
-// window.myArray = {Name:'asdf', Age:'2', asdf: null}
-// window.myOtherArray = [1,2,3];
-
-
 window.createUser = function createUser(){
     let username = prompt('Hi there, what is your name?');
     console.log(username);
@@ -64,16 +34,16 @@ window.ToDoClass = class ToDoClass{
         }
         this.toDoList = resizedArray;
     }
-
     projectNames(){
-        let projectNames = {};
+        let projectNames = [];
         
         for (let i=1;i<=this.arraySize();++i){
-            projectNames[i] = {Text: this.toDoList[i].ProjectName, Value: `Value ${i}`};
+            if ((!projectNames.includes(this.toDoList[i].ProjectName)) && (this.toDoList[i].ProjectName != null)){
+                projectNames.push(this.toDoList[i].ProjectName)
+            }
         }
         return projectNames;
     }
-
 }
 
 
@@ -106,6 +76,20 @@ window.inputPrio = function inputPrio(){
     }
 }
 window.inputProject = function inputProject(){
+    const projectName = document.querySelector('#projectName');
+    const checkExisting = document.querySelector('#addToExisting');
+    const addToProject = document.querySelector('#project')
+    if (!addToProject.checked){
+        return null
+    }
+    else if (checkExisting.checked){
+        const selected = document.querySelector('#projectSelect');
+        return selected.textContent;
+    }
+    else if(!checkExisting.checked){
+        return projectName.value;
+    }
+
 
 }
 window.toDoSize = function toDoSize(){
@@ -113,14 +97,14 @@ window.toDoSize = function toDoSize(){
     return size.length;
 }
 
-const button = document.querySelector('.submit');
+const button = document.querySelector('#submit');
 button.addEventListener('click', function(){
     toDoList.addNewItem({
         Title: inputTitle(),
         Desc: inputDesc(),
         DueDate: inputDate(),
         Prio: inputPrio(),
-        ProjectName: null
+        ProjectName: inputProject()
         
     })
 });
@@ -128,15 +112,13 @@ button.addEventListener('click', function(){
 
 
 // window.newArray = { 1: {Name: 'first', Age: 10}, 2: {Name: 'two', Age: 20}, 3:{Name: 'three', Age: 30}}
-window.toDoList = new ToDoClass({1:{Title: 'ToDo1', Desc: 'Desc1', DueDate: 'date1', Prio: 'Low', ProjectName: 'Project1'}, 2:{Title: 'ToDo2', Desc: 'Desc2', DueDate: 'date2', Prio: 'High', ProjectName: null}});
+window.toDoList = new ToDoClass({
+        1:{Title: 'ToDo1', Desc: 'Desc1', DueDate: 'date1', Prio: 'low', ProjectName: 'Project 1'}, 
+        2:{Title: 'ToDo2', Desc: 'Desc2', DueDate: 'date2', Prio: 'high', ProjectName: null},
+        3:{Title: 'ToDo3', Desc: 'Desc3', DueDate: 'date3', Prio: 'medium', ProjectName: 'Project 1'}
+    });
 
-window.testFunction = function testFunction(){
-    const testSelector = document.querySelector("input[name=testCheckBox]");
-    const extraInformation = document.createElement('div');
-    extraInformation.style.cssText = "background-color: red; font-size: 1em;";
-    extraInformation.textContent = 'extra Info';
-    testSelector.appendChild(extraInformation);
-}
+
 window.checkedFunction = document.querySelector("input[name=project]");
 checkedFunction.addEventListener('change',function(e){
        
@@ -162,14 +144,45 @@ addToExistingChecked.addEventListener('change',function(e){
     }
     const allProjects = toDoList.projectNames();
     const projectsList = document.querySelector('#projectSelect');
-    for (let i=1;i<=(Object.keys(allProjects).length);++i){
+    removeAllChildNodes(projectsList);
+
+    for (let i=1;i<=(allProjects.length);++i){
         const newOption = document.createElement('option');
-        newOption.value = allProjects[i].Value;
-        newOption.text = allProjects[i].Text;
+        newOption.value = `Value: ${i}`
+        newOption.text = allProjects[i-1]
         projectsList.appendChild(newOption);
     }    
 
 });
+
+window.removeAllChildNodes = function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+};
+
+window.sideBarProjects = function sideBarProjects(){
+    const projects = document.querySelector('.projects');
+    
+    for(let i=0;i<toDoList.projectNames().length;++i){
+        const createDiv = document.createElement('div');
+        createDiv.classList.add(toDoList.projectNames()[i].replace(/\s+/g, '-'));
+        createDiv.textContent = toDoList.projectNames()[i];
+        projects.appendChild(createDiv);
+    }
+}
+
+window.sidebarAdd = document.querySelector('.addToDo');
+sidebarAdd.addEventListener('click',function(){
+    if( (checkStyle('submit','display') =='none') && (checkStyle('toDoData','display') == 'none')){
+        const showToDo = document.querySelectorAll('#toDoData, #submit');
+        showToDo.forEach((element)=>{
+            element.style.display = 'block';
+        });
+    
+    }
+
+})
 
 
 
@@ -181,30 +194,40 @@ window.checkStyle = function checkStyle(item, property){
 }
 
 
-window.myOptions = [{
-    text: 'option 1',
-    value: 'value 1'
-},
-{
-    text: 'option 2',
-    value: 'value 2',
-    selected: true
-},
-{
-    text: 'option 3',
-    value: 'value 3'
-}]
-window.testButton = document.querySelector('#testButton');
-testButton.addEventListener('click',function(){
-    const optionList = document.querySelector('#testSelect');
-    for (let i=0;i<myOptions.length;++i){
-        const newOption = document.createElement('option');
-        newOption.value = myOptions[i].value;
-        newOption.text = myOptions[i].text;
-        optionList.appendChild(newOption);
-    }
 
-})
+
+// window.myOptions = [{
+//     text: 'option 1',
+//     value: 'value 1'
+// },
+// {
+//     text: 'option 2',
+//     value: 'value 2',
+//     selected: true
+// },
+// {
+//     text: 'option 3',
+//     value: 'value 3'
+// }]
+// window.testButton = document.querySelector('#testButton');
+// testButton.addEventListener('click',function(){
+//     const optionList = document.querySelector('#testSelect');
+//     for (let i=0;i<myOptions.length;++i){
+//         const newOption = document.createElement('option');
+//         newOption.value = myOptions[i].value;
+//         newOption.text = myOptions[i].text;
+//         optionList.appendChild(newOption);
+//     }
+
+// })
+
+// window.testFunction = function testFunction(){
+//     const testSelector = document.querySelector("input[name=testCheckBox]");
+//     const extraInformation = document.createElement('div');
+//     extraInformation.style.cssText = "background-color: red; font-size: 1em;";
+//     extraInformation.textContent = 'extra Info';
+//     testSelector.appendChild(extraInformation);
+// }
 
 
 

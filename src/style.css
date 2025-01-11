@@ -33,4 +33,8 @@ body{
     display:none;
 }
 
+#toDoData, #submit{
+    display:none;
+}
+
 
