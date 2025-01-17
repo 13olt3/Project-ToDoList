@@ -44,6 +44,65 @@ window.ToDoClass = class ToDoClass{
         }
         return projectNames;
     }
+
+    returnToDoName(projectName){
+        let toDoNames = []
+        for (let i=1;i<=this.arraySize();++i){
+            if(this.toDoList[i].ProjectName == projectName){
+                toDoNames.push(this.toDoList[i].Title)
+            }
+        }
+        return toDoNames;
+    }
+
+    showProjectToDos(projectName){
+        const toDos = this.returnToDoName(projectName);
+        let selectedProject = projectName.replace(/\s+/g, '-');
+        const projectDiv = document.querySelector(`.${selectedProject}`);
+        
+        for(let i=0;i<toDos.length;++i){
+            const toDoDivs = document.createElement('div');
+            // let childCount = selectedProject.childElementCount;
+            // for(let i=0;i<childCount;++i){
+            //     selectedProject.removeChild(selectedProject.lastChild);
+            // }
+            toDoDivs.textContent = toDos[i];
+            toDoDivs.addEventListener('click',()=>this.showToDoContent(toDoDivs.textContent))
+            projectDiv.appendChild(toDoDivs);
+        }
+        
+    }
+
+    showToDoContent(toDoName){
+        console.log(toDoName);
+        ///////////
+    }
+
+    populateSidebar(){ 
+
+        const projectless = document.querySelector('.projectless');
+        const hasProject = document.querySelector('.projects');
+        removeAllChildNodes(projectless);
+        removeAllChildNodes(hasProject);
+        
+        for(let i=1;i<this.arraySize()+1;++i){
+            if(this.toDoList[i].ProjectName == null){
+                const thisTask = document.createElement('div');
+                thisTask.textContent = this.toDoList[i].Title;
+                projectless.appendChild(thisTask);
+            }
+        }
+        let allProjects = this.projectNames();
+        for (let i=0;i<allProjects.length;++i){
+            
+            const projectDiv = document.createElement('div');
+            projectDiv.setAttribute('class', allProjects[i].replace(/\s+/g, '-'));
+            projectDiv.textContent = allProjects[i];
+            projectDiv.addEventListener('click',()=>this.showProjectToDos(projectDiv.textContent))           
+            
+            hasProject.appendChild(projectDiv);
+        }
+    }
 }
 
 
@@ -107,11 +166,11 @@ button.addEventListener('click', function(){
         ProjectName: inputProject()
         
     })
+    toDoList.populateSidebar();
 });
 
 
 
-// window.newArray = { 1: {Name: 'first', Age: 10}, 2: {Name: 'two', Age: 20}, 3:{Name: 'three', Age: 30}}
 window.toDoList = new ToDoClass({
         1:{Title: 'ToDo1', Desc: 'Desc1', DueDate: 'date1', Prio: 'low', ProjectName: 'Project 1'}, 
         2:{Title: 'ToDo2', Desc: 'Desc2', DueDate: 'date2', Prio: 'high', ProjectName: null},

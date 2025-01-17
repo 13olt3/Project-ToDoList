@@ -37,4 +37,8 @@ body{
     display:none;
 }
 
+.projects > div > div{
+    margin-left: 10px;
+}
+
 
