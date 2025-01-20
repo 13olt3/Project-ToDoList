@@ -10,6 +10,7 @@ fieldset > div {
 }
 
 body{
+    min-height: 100vh;
     display: grid;
     grid-template-columns: 1fr 4fr;
 }
@@ -18,10 +19,18 @@ body{
     padding-bottom: 10px;
 }
 
-.addToDo > img{
+.plus{
     width: 10%;
     padding-right: 10px;
 }
+.cross{
+    width: 100%;
+    
+    grid-column: 2 /3;
+    grid-row: 1/20;
+    
+}
+
 .addToDo{
     display: flex;  
     justify-content: flex-start;
@@ -33,12 +42,24 @@ body{
     display:none;
 }
 
-#toDoData, #submit{
+#toDoData{
+    display: none;
+    grid-template-columns: 9fr 1fr;
+    grid-template-rows:
+}
+
+#submit{
     display:none;
 }
 
 .projects > div > div{
     margin-left: 10px;
+}
+
+.sideBar{
+    grid-column: 1 / 2;
+    border: 3px solid black;
+    
 }
 
 

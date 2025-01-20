@@ -21,8 +21,7 @@ window.ToDoClass = class ToDoClass{
         return this.toDoList;
     }
     arraySize(){
-        return (Object.keys(this.toDoList).length);
-        
+        return (Object.keys(this.toDoList).length);        
     }
     removeItem(number){
         let resizedArray = {}
@@ -48,7 +47,7 @@ window.ToDoClass = class ToDoClass{
     returnToDoName(projectName){
         let toDoNames = []
         for (let i=1;i<=this.arraySize();++i){
-            if(this.toDoList[i].ProjectName == projectName){
+            if(this.toDoList[i].ProjectName == projectName.replace('-',' ')){
                 toDoNames.push(this.toDoList[i].Title)
             }
         }
@@ -57,19 +56,27 @@ window.ToDoClass = class ToDoClass{
 
     showProjectToDos(projectName){
         const toDos = this.returnToDoName(projectName);
-        let selectedProject = projectName.replace(/\s+/g, '-');
-        const projectDiv = document.querySelector(`.${selectedProject}`);
-        
-        for(let i=0;i<toDos.length;++i){
-            const toDoDivs = document.createElement('div');
-            // let childCount = selectedProject.childElementCount;
-            // for(let i=0;i<childCount;++i){
-            //     selectedProject.removeChild(selectedProject.lastChild);
-            // }
-            toDoDivs.textContent = toDos[i];
-            toDoDivs.addEventListener('click',()=>this.showToDoContent(toDoDivs.textContent))
-            projectDiv.appendChild(toDoDivs);
+        const projectDiv = document.querySelector(`.${projectName}`);
+        if ( projectDiv.childElementCount == 0){
+            for(let i=0;i<toDos.length;++i){
+                const toDoDivs = document.createElement('div');
+                // let childCount = selectedProject.childElementCount;
+                // for(let i=0;i<childCount;++i){
+                //     selectedProject.removeChild(selectedProject.lastChild);
+                // }
+                toDoDivs.textContent = toDos[i];
+                toDoDivs.addEventListener('click',()=>this.showToDoContent(toDoDivs.textContent))
+                projectDiv.appendChild(toDoDivs);
+            }
         }
+        else if (projectDiv.childElementCount > 0){
+            let count = projectDiv.childElementCount;
+            for(let i=0;i<count;++i){
+                projectDiv.removeChild(projectDiv.lastChild);
+            }
+
+        }
+
         
     }
 
@@ -89,7 +96,11 @@ window.ToDoClass = class ToDoClass{
             if(this.toDoList[i].ProjectName == null){
                 const thisTask = document.createElement('div');
                 thisTask.textContent = this.toDoList[i].Title;
+                /////
+                thisTask.addEventListener('click',()=>console.log('hi'));
+                /////     
                 projectless.appendChild(thisTask);
+
             }
         }
         let allProjects = this.projectNames();
@@ -98,7 +109,7 @@ window.ToDoClass = class ToDoClass{
             const projectDiv = document.createElement('div');
             projectDiv.setAttribute('class', allProjects[i].replace(/\s+/g, '-'));
             projectDiv.textContent = allProjects[i];
-            projectDiv.addEventListener('click',()=>this.showProjectToDos(projectDiv.textContent))           
+            projectDiv.addEventListener('click',()=>this.showProjectToDos(projectDiv.className))           
             
             hasProject.appendChild(projectDiv);
         }
@@ -175,7 +186,7 @@ window.toDoList = new ToDoClass({
         1:{Title: 'ToDo1', Desc: 'Desc1', DueDate: 'date1', Prio: 'low', ProjectName: 'Project 1'}, 
         2:{Title: 'ToDo2', Desc: 'Desc2', DueDate: 'date2', Prio: 'high', ProjectName: null},
         3:{Title: 'ToDo3', Desc: 'Desc3', DueDate: 'date3', Prio: 'medium', ProjectName: 'Project 1'}
-    });
+});
 
 
 window.checkedFunction = document.querySelector("input[name=project]");
@@ -236,11 +247,18 @@ sidebarAdd.addEventListener('click',function(){
     if( (checkStyle('submit','display') =='none') && (checkStyle('toDoData','display') == 'none')){
         const showToDo = document.querySelectorAll('#toDoData, #submit');
         showToDo.forEach((element)=>{
-            element.style.display = 'block';
+            element.style.display = 'grid';
         });
-    
     }
-
+})
+window.hideSidebar = document.querySelector('.cross');
+hideSidebar.addEventListener('click',function(){
+    if( (checkStyle('submit','display') !='none') && (checkStyle('toDoData','display') != 'none')){
+        const showToDo = document.querySelectorAll('#toDoData, #submit');
+        showToDo.forEach((element)=>{
+            element.style.display = 'none';
+        });
+    }
 })
 
 

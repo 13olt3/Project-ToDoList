@@ -12,7 +12,7 @@
 
             Your to-do list:
             <div class="addToDo">
-                <img src="./images/plus-circle.svg" alt="Plus"> 
+                <img class="plus" src="./images/plus-circle.svg" alt="Plus"> 
                 <div>add to list</div>
             </div>
             <div class="projectless"></div>
@@ -23,58 +23,63 @@
         </div>
     </div>
     <div class="mainContent">
-        <fieldset id="toDoData">
-            <div>
-                <label for="inputTitle">Title: </label>
-                <input type="text" id="inputTitle" name="input_title">
-            </div>
-            <div>
-                <label for="inputDesc">Description: </label>
-                <textarea name="description" id="inputDesc"></textarea>
-            </div>
-            <div>
-                <label for="inputDate">Due date: </label>
-                <input class="inputDate" type="date" id="inputDate" name="input_date">
-            </div>
-            <div>Priority
-                <div>            
-                    <input type="radio" id="low" name="input_priority">
-                    <label for="low">Low</label>
+        <div>
+            
+            <fieldset id="toDoData">
+                <img class="cross" src="./images/x.svg" alt="">
+                <div>
+                    <label for="inputTitle">Title: </label>
+                    <input type="text" id="inputTitle" name="input_title">
                 </div>
                 <div>
-                    <input type="radio" id="medium" name="input_priority">
-                    <label for="medium">Moderate</label>
+                    <label for="inputDesc">Description: </label>
+                    <textarea name="description" id="inputDesc"></textarea>
                 </div>
                 <div>
-                    <input type="radio" id="high" name="input_priority">
-                    <label for="high">Urgent</label>
+                    <label for="inputDate">Due date: </label>
+                    <input class="inputDate" type="date" id="inputDate" name="input_date">
                 </div>
-    
-    
-    
-            </div>
-            <div>
-                <label for="project">Add to project</label>
-                <input type="checkbox" id="project" name="project">
-            </div>
-            <div id="addToProject">
+                <div>Priority
+                    <div>            
+                        <input type="radio" id="low" name="input_priority">
+                        <label for="low">Low</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="medium" name="input_priority">
+                        <label for="medium">Moderate</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="high" name="input_priority">
+                        <label for="high">Urgent</label>
+                    </div>
+        
+        
+        
+                </div>
                 <div>
-                    <label for="projectName">Project Name:</label>
-                    <input type="text" id="projectName">
+                    <label for="project">Add to project</label>
+                    <input type="checkbox" id="project" name="project">
                 </div>
-                <div>
-                    <label for="addToExisting">Add to existing project:</label>
-                    <input type="checkbox" id="addToExisting" name="addToExisting">       
+                <div id="addToProject">
+                    <div>
+                        <label for="projectName">Project Name:</label>
+                        <input type="text" id="projectName">
+                    </div>
+                    <div>
+                        <label for="addToExisting">Add to existing project:</label>
+                        <input type="checkbox" id="addToExisting" name="addToExisting">       
+                    </div>
+                    <div>
+                        <label for="projectSelect">Select existing project:</label>
+                        <select name="" id="projectSelect" disabled></select>
+                    </div>
+            
                 </div>
-                <div>
-                    <label for="projectSelect">Select existing project:</label>
-                    <select name="" id="projectSelect" disabled></select>
-                </div>
-         
-            </div>
-        </fieldset>
+            </fieldset>
             
             <button id="submit">Submit!</button>
+
+        </div>
         
 
 
