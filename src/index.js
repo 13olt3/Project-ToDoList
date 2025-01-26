@@ -1,5 +1,7 @@
 import "./style.css";
 import { compareAsc, format } from "date-fns";
+import plusImg from "./images/plus.svg";
+import minusImg from "./images/minus.svg";
 
 window.createUser = function createUser(){
     let username = prompt('Hi there, what is your name?');
@@ -57,32 +59,56 @@ window.ToDoClass = class ToDoClass{
     showProjectToDos(projectName){
         const toDos = this.returnToDoName(projectName);
         const projectDiv = document.querySelector(`.${projectName}`);
-        if ( projectDiv.childElementCount == 0){
+        if ( projectDiv.childElementCount == 1){            
             for(let i=0;i<toDos.length;++i){
                 const toDoDivs = document.createElement('div');
-                // let childCount = selectedProject.childElementCount;
-                // for(let i=0;i<childCount;++i){
-                //     selectedProject.removeChild(selectedProject.lastChild);
-                // }
                 toDoDivs.textContent = toDos[i];
+                toDoDivs.style.cssText = "grid-column: 1 / 3;"
                 toDoDivs.addEventListener('click',()=>this.showToDoContent(toDoDivs.textContent))
                 projectDiv.appendChild(toDoDivs);
             }
         }
-        else if (projectDiv.childElementCount > 0){
-            let count = projectDiv.childElementCount;
-            for(let i=0;i<count;++i){
+        else if (projectDiv.childElementCount > 1 ){
+            while (projectDiv.childElementCount > 1){
                 projectDiv.removeChild(projectDiv.lastChild);
             }
-
-        }
-
-        
+        }               
     }
 
     showToDoContent(toDoName){
-        console.log(toDoName);
-        ///////////
+
+        let selectedToDo = {}
+        const displayPanel = document.querySelector('#selectedToDo');
+        const displayTitle = document.querySelector('.selectedTitle');
+        const displayDesc = document.querySelector('.selectedDesc');
+        const displayPrio = document.querySelector('.selectedPrio');
+        const displayDate = document.querySelector('.selectedDate');
+        const displayProj = document.querySelector('.selectedProject');
+        for (let i=1;i<=this.arraySize();++i){
+            if (this.toDoList[i].Title == toDoName){
+                selectedToDo = this.toDoList[i];                
+            }
+        }
+        if( (checkStyle('submit','display') !='none') && (checkStyle('toDoData','display') != 'none')){
+            const showToDo = document.querySelectorAll('#toDoData, #submit');
+            showToDo.forEach((element)=>{
+                element.style.display = 'none';
+            });
+        }
+        displayPanel.style.cssText = "display: block;";
+        displayTitle.textContent = 'Title: ' + selectedToDo.Title;
+        displayDesc.textContent = 'Description: ' + selectedToDo.Desc;
+        displayPrio.textContent = 'Priority: ' + selectedToDo.Prio;
+        displayDate.textContent = 'Due date: ' + selectedToDo.DueDate;
+        if(selectedToDo.ProjectName != null){
+            displayProj.textContent = 'Associated project: ' + selectedToDo.ProjectName;
+        }
+        else if (selectedToDo.ProjectName == null){
+            displayProj.textContent = 'Associated project: ' + 'none';
+        }
+        
+
+
     }
 
     populateSidebar(){ 
@@ -91,33 +117,60 @@ window.ToDoClass = class ToDoClass{
         const hasProject = document.querySelector('.projects');
         removeAllChildNodes(projectless);
         removeAllChildNodes(hasProject);
-        
+        //no project
         for(let i=1;i<this.arraySize()+1;++i){
             if(this.toDoList[i].ProjectName == null){
                 const thisTask = document.createElement('div');
                 thisTask.textContent = this.toDoList[i].Title;
+                thisTask.setAttribute('class',this.toDoList[i].Title.replace(/\s+/g, '-'));
+                
                 /////
-                thisTask.addEventListener('click',()=>console.log('hi'));
+                thisTask.addEventListener('click',()=>this.showToDoContent(thisTask.className));
                 /////     
                 projectless.appendChild(thisTask);
 
             }
         }
+
+        //has project
         let allProjects = this.projectNames();
         for (let i=0;i<allProjects.length;++i){
             
             const projectDiv = document.createElement('div');
+            const plus = document.createElement('img');
+            plus.src = plusImg;
+
+            plus.setAttribute('id', 'expand');
+
+
             projectDiv.setAttribute('class', allProjects[i].replace(/\s+/g, '-'));
             projectDiv.textContent = allProjects[i];
-            projectDiv.addEventListener('click',()=>this.showProjectToDos(projectDiv.className))           
-            
+            // plus.addEventListener('click', function(e){
+            //     console.log(e.target.parentNode.className);
+            //     console.log(e.target.parentNode.childElementCount);
+            //     if(e.target.parentNode.childElementCount > 1){
+            //        e.target.parentNode.removeChild(e.target.parentNode.lastChild); 
+            //     }
+            // });
+
+            plus.addEventListener('click', function(e){
+                console.log(e.target.parentNode.className)
+                if (e.target.src == 'http://localhost:8080/a0101e53ed9ed4000e47.svg'){
+                    e.target.src = 'http://localhost:8080/3cffe9a515498593b872.svg' 
+                }
+                else if (e.target.src == 'http://localhost:8080/3cffe9a515498593b872.svg'){
+                    e.target.src = 'http://localhost:8080/a0101e53ed9ed4000e47.svg'
+                }
+            });
+            plus.addEventListener('click',()=>this.showProjectToDos(projectDiv.className));
+            projectDiv.style.cssText = "display: grid; grid-template-columns: 3fr 1fr;";
+
+            projectDiv.appendChild(plus);
+            // projectDiv.addEventListener('click',()=>this.showProjectToDos(projectDiv.className));
             hasProject.appendChild(projectDiv);
         }
     }
 }
-
-
-
 
 window.inputTitle = function inputTitle(){
     const title = document.querySelector('#inputTitle');
@@ -183,9 +236,12 @@ button.addEventListener('click', function(){
 
 
 window.toDoList = new ToDoClass({
-        1:{Title: 'ToDo1', Desc: 'Desc1', DueDate: 'date1', Prio: 'low', ProjectName: 'Project 1'}, 
+        1:{Title: 'ToDo1', Desc: 'Desc1', DueDate: 'date1', Prio: 'low', ProjectName: 'Clean room'}, 
         2:{Title: 'ToDo2', Desc: 'Desc2', DueDate: 'date2', Prio: 'high', ProjectName: null},
-        3:{Title: 'ToDo3', Desc: 'Desc3', DueDate: 'date3', Prio: 'medium', ProjectName: 'Project 1'}
+        3:{Title: 'ToDo3', Desc: 'Desc3', DueDate: 'date3', Prio: 'medium', ProjectName: 'Project 1'},
+        4:{Title: 'ToDo4', Desc: 'Desc4', DueDate: 'date4', Prio: 'medium', ProjectName: 'Project 1'},
+        5:{Title: 'ToDo5', Desc: 'Desc5', DueDate: 'date5', Prio: 'low', ProjectName: 'Clean room'},
+        6:{Title: 'ToDo6', Desc: 'Desc6', DueDate: 'date6', Prio: 'high', ProjectName: 'Clean room'}
 });
 
 
@@ -246,6 +302,8 @@ window.sidebarAdd = document.querySelector('.addToDo');
 sidebarAdd.addEventListener('click',function(){
     if( (checkStyle('submit','display') =='none') && (checkStyle('toDoData','display') == 'none')){
         const showToDo = document.querySelectorAll('#toDoData, #submit');
+        const hideData = document.querySelector('#selectedToDo');
+        hideData.style.cssText = 'display: none';
         showToDo.forEach((element)=>{
             element.style.display = 'grid';
         });

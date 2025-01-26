@@ -1,12 +1,10 @@
-.informationDisplay{
-    width:20%;
-    height:10%;
-    border-style: solid;
-    font-weight: bold;
-
-}
 fieldset > div {
     padding-top: 5px;
+}
+fieldset{
+    border: 3px solid rgb(155, 150, 150);
+    margin: 2px;
+    padding: 5px;
 }
 
 body{
@@ -26,8 +24,8 @@ body{
 .cross{
     width: 100%;
     
-    grid-column: 2 /3;
-    grid-row: 1/20;
+    grid-column: 2 / 3;
+    grid-row: 1 / 20;
     
 }
 
@@ -45,7 +43,14 @@ body{
 #toDoData{
     display: none;
     grid-template-columns: 9fr 1fr;
-    grid-template-rows:
+
+}
+#selectedToDo{
+    display: none;
+    border: 3px solid rgb(155, 150, 150);
+    margin: 2px;
+    padding: 5px;
+
 }
 
 #submit{
@@ -60,6 +65,17 @@ body{
     grid-column: 1 / 2;
     border: 3px solid black;
     
+}
+#expand, #minimize{
+    width: 80%;    
+}
+
+.toggleOff{
+    display: none;
+}
+.toggleOn{
+    display: block;
+
 }
 
 
