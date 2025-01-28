@@ -2,6 +2,8 @@ import "./style.css";
 import { compareAsc, format } from "date-fns";
 import plusImg from "./images/plus.svg";
 import minusImg from "./images/minus.svg";
+import plusCircle from "./images/plus-circle.svg";
+import bigX from "./images/x.svg";
 
 window.createUser = function createUser(){
     let username = prompt('Hi there, what is your name?');
@@ -155,11 +157,11 @@ window.ToDoClass = class ToDoClass{
 
             plus.addEventListener('click', function(e){
                 console.log(e.target.parentNode.className)
-                if (e.target.src == 'http://localhost:8080/a0101e53ed9ed4000e47.svg'){
-                    e.target.src = 'http://localhost:8080/3cffe9a515498593b872.svg' 
+                if (e.target.src == plusImg){
+                    e.target.src = minusImg;
                 }
-                else if (e.target.src == 'http://localhost:8080/3cffe9a515498593b872.svg'){
-                    e.target.src = 'http://localhost:8080/a0101e53ed9ed4000e47.svg'
+                else if (e.target.src == minusImg){
+                    e.target.src = plusImg;
                 }
             });
             plus.addEventListener('click',()=>this.showProjectToDos(projectDiv.className));
@@ -309,7 +311,10 @@ sidebarAdd.addEventListener('click',function(){
         });
     }
 })
+window.sideBarPlus = document.querySelector('.plus');
+sideBarPlus.setAttribute('src', plusCircle)
 window.hideSidebar = document.querySelector('.cross');
+hideSidebar.setAttribute('src', bigX);
 hideSidebar.addEventListener('click',function(){
     if( (checkStyle('submit','display') !='none') && (checkStyle('toDoData','display') != 'none')){
         const showToDo = document.querySelectorAll('#toDoData, #submit');
